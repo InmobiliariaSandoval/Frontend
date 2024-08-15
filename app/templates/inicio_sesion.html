@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Inicio de sesión</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Página de inicio de sesión del sistema">
+    <meta name="author" content="@jannethsm31 y @PatricioVargasR">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico')}}">
+
+    <!-- FontAwesome JS-->
+    <script defer src="{{ url_for('static', filename='plugins/fontawesome/js/all.min.js') }}"></script>
+
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="app app-login p-0">
+    <div class="row g-0 app-auth-wrapper">
+	    <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
+		    <div class="d-flex flex-column align-content-end">
+			    <div class="app-auth-body mx-auto">
+				    <div class="app-auth-branding mb-4">
+						<a class="app-logo" href="/">
+							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-houses-fill me-2" viewBox="0 0 16 16">
+								<path d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.5 2.5 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z"/>
+								<path d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z"/>
+							</svg>
+						</a>
+					</div>
+					<h2 class="auth-heading text-center mb-5">Inicio de sesión</h2>
+			        <div class="auth-form-container text-start">
+						<div class="auth-form login-form">
+							<div class="email mb-3">
+								<label class="sr-only" for="signin-email">Correo electrónico</label>
+								<input id="correo_electronico_sesion" name="correo_electronico" type="email" class="form-control signin-email" placeholder="Correo electrónico" required="required">
+							</div><!--//form-group-->
+							<div class="password mb-3">
+								<label class="sr-only" for="signin-password">Contraseña</label>
+								<input id="contraseña_sesion" name="contraseña" type="password" class="form-control signin-password" placeholder="Contraseña" required="required">
+								<div class="extra mt-3 row justify-content-between">
+									<div class="col-6">
+										<div class="forgot-password text-start">
+											<button class="btn-minimal" onclick="reiniciar_sesion()">Reiniciar sesión</button>
+										</div>
+									</div><!--//col-6-->
+									<div class="col-6">
+										<div class="forgot-password text-end">
+											<a href="/reset_password">¿Olvidaste tu contraseña?</a>
+										</div>
+									</div><!--//col-6-->
+								</div><!--//extra-->
+							</div><!--//form-group-->
+							<div class="text-center">
+								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto" onclick="iniciar_sesion()">Ingresar</button>
+							</div>
+						</div>
+					</div><!--//auth-form-container-->
+			    </div><!--//auth-body-->
+
+			    <footer class="app-auth-footer">
+				    <div class="container text-center py-3">
+			        	<small class="copyright">Diseñado para <a class="app-link" href="https://www.facebook.com/profile.php?id=100067345848900" target="_blank">Inmobiliaria Grupo Sandoval</a></small>
+				    </div>
+			    </footer><!--//app-auth-footer-->
+		    </div><!--//flex-column-->
+	    </div><!--//auth-main-col-->
+
+	    <div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+		    <div class="auth-background-holder"></div>
+		    <div class="auth-background-mask"></div>
+		    <div class="auth-background-overlay p-3 p-lg-5">
+
+
+			    <div class="d-flex flex-column align-content-end h-100">
+					{% with mensajes = get_flashed_messages(category_filter=["message"]) %}
+						{% if mensajes %}
+								{% for mensaje in mensajes %}
+								<div class="alert alert-success alert-dismissible fade show" role="alert">
+									{{ mensaje|safe }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+								</div>
+								{% endfor %}
+						{% endif %}
+					{% endwith %}
+
+					{% with mensajes = get_flashed_messages(category_filter=["warning"]) %}
+						{% if mensajes %}
+								{% for mensaje in mensajes %}
+								<div class="alert alert-warning alert-dismissible fade show" role="alert">
+									{{ mensaje|safe }}
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+								</div>
+								{% endfor %}
+						{% endif %}
+					{% endwith %}
+
+				{% with mensajes = get_flashed_messages(category_filter=["error"]) %}
+					{% if mensajes %}
+							{% for mensaje in mensajes %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								{{ mensaje|safe }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+							</div>
+							{% endfor %}
+					{% endif %}
+				{% endwith %}
+				    <div class="h-100"></div>
+				    <div class="overlay-content p-3 p-lg-4 rounded">
+					    <h5 class="mb-3 overlay-title">Inmobiliaria Grupo Sandoval</h5>
+					    <div>Grupo inmobiliario trabajando para ti con las mejores inversiones, proyectos y desarrollos.</div>
+				    </div>
+				</div>
+		    </div><!--//auth-background-overlay-->
+	    </div><!--//auth-background-col-->
+    </div><!--//row-->
+   <!-- Javascript -->
+   <script src="{{ url_for('static', filename='plugins/popper.min.js') }}"></script>
+   <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+	<script type="module">
+		// Importar función de inicio de sesión
+		import { iniciar_sesion, reiniciar_sesion } from "{{url_for('static', filename='js/sesion/administrar_sesion.js')}}"
+
+		window.iniciar_sesion = iniciar_sesion;
+		window.reiniciar_sesion = reiniciar_sesion;
+
+	</script>
+</body>
+</html>
+

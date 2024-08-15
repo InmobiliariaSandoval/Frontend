@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>Editar vendedor</title>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta name="description" content="Página donde se editan los datos de un vendedor">
+        <meta name="author" content="@jannethsm31 y @PatricioVargasR">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico')}}">
+
+        <!-- FontAwesome JS-->
+        <script defer src="{{ url_for('static', filename='plugins/fontawesome/js/all.min.js') }}"></script>
+
+        <!-- App CSS -->
+        <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    </head>
+
+    <body class="app">
+        <header class="app-header fixed-top">
+
+            <!--BARRA BUSCAR, NOTIFICACIONES, Y CERRAR SESION-->
+            <div class="app-header-inner">
+                <div class="container-fluid py-2">
+                    <div class="app-header-content">
+                        <div class="row justify-content-between align-items-center">
+
+                            <div class="col-auto">
+                                <a id="sidepanel-toggler" class="sidepanel-toggler d-inline-block d-xl-none" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img"><title>Menú</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+                                </a>
+                            </div><!--//col-->
+                            <div class="search-mobile-trigger d-sm-none col">
+                                <i class="search-mobile-trigger-icon fa-solid fa-magnifying-glass"></i>
+                            </div><!--//col-->
+                            <div class="app-search-box col">
+                                <form class="app-search-form" action="{{ url_for('generales.buscar_opciones') }}" method="POST">
+                                    <input type="text" placeholder="Buscar..." name="buscar" list="opciones" class="form-control search-input">
+                                    <button type="submit" class="btn search-btn btn-primary" value=" buscar"><i class="fa-solid fa-magnifying-glass"></i></button> 
+                                </form>
+                            </div><!--//app-search-box-->
+
+                        <div class="app-utilities col-auto">
+                            <div class="app-utility-item app-notifications-dropdown dropdown">
+                                <a class="dropdown-toggle no-toggle-arrow" id="notifications-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Notifications">
+                                    <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bell icon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2z"/>
+                                        <path fill-rule="evenodd" d="M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                                    </svg>
+                                    {% if notificaciones and notificaciones|length != 0 or total_notificaciones != 0 %}
+                                        <span class="icon-badge">
+                                            {{ total_notificaciones }}
+                                        </span>
+                                    {% endif %}
+                                </a><!--//dropdown-toggle-->
+
+                                <!-- Area de notificaciones -->
+                                <div class="dropdown-menu p-0" aria-labelledby="notifications-dropdown-toggle">
+                                    <div class="dropdown-menu-header p-3">
+                                        <h5 class="dropdown-menu-title mb-0">Notificaciones</h5>
+                                    </div><!--//dropdown-menu-title-->
+
+                                    <!-- Aquí irán las notificaciones-->
+                                    <div class="dropdown-menu-content">
+                                        {% if not notificaciones or notificaciones|length == 0 %}
+                                            <div class="item p-3">
+                                                No hay notificaciones
+                                            </div>
+                                        {% endif %}
+                                        {% if notificaciones and notificaciones|length != 0 %}
+                                            {% for notificacion in notificaciones %}
+                                                <div class="item p-3">
+                                                    <div class="row gx-2 justify-content-between align-items-center">
+                                                        <div class="col">
+                                                            <div class="info">
+                                                                <div class="desc">
+                                                                    {{ notificacion.descripcion }}
+                                                                </div>
+                                                                <div class="meta">
+                                                                    {{ notificacion.fecha }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                    {% endif %}
+                                    </div>
+
+                                    <div class="dropdown-menu-footer p-2 text-center">
+                                        <a href="/ver_notificaciones">Ver todas</a>
+                                    </div>
+
+                                </div><!--//dropdown-menu-->
+                            </div><!--//app-utility-item-->
+                            <div class="app-utility-item app-user-dropdown dropdown">
+                                <a class="dropdown-toggle" id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                      </svg>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
+                                    <li><a class="dropdown-item" href="/configuracion">Configuración</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><button class="dropdown-item" onclick="cerrar_sesion()">Cerrar sesión</button></li>
+                                </ul>
+                            </div><!--//app-utilities-->
+                        </div><!--//row-->
+                    </div><!--//app-header-content-->
+                </div><!--//container-fluid-->
+            </div><!--//app-header-inner-->
+            <!--BARRA NOTIFICACIONES ETC.-->
+
+            <!--SIDEBAR-->
+            <div id="app-sidepanel" class="app-sidepanel">
+                <div id="sidepanel-drop" class="sidepanel-drop"></div>
+                <div class="sidepanel-inner d-flex flex-column">
+                    <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+                    <div class="app-branding">
+                        <a class="app-logo" href="/resumen">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="black" class="bi bi-houses-fill me-2" viewBox="0 0 16 16">
+                                <path d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.5 2.5 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z"/>
+                                <path d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z"/>
+                            </svg>
+                            <span class="logo-text" style="font-size: 0.85rem;">Inmobiliaria Grupo Sandoval</span>
+                        </a>
+                    </div>
+
+                    <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+                        <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+                            <li class="nav-item">
+                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                <a class="nav-link" href="/resumen">
+                                    <span class="nav-icon">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
+                                            <path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-text">Resumen</span>
+                                </a><!--//nav-link-->
+                            </li><!--//nav-item-->
+                            <li class="nav-item">
+                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                <a class="nav-link" href="/ver_clientes">
+                                    <span class="nav-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-text">Clientes y ventas</span>
+                                </a><!--//nav-link-->
+                            </li><!--//nav-item-->
+                            <li class="nav-item">
+                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                <a class="nav-link active" href="/ver_vendedores">
+                                    <span class="nav-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-text">Vendedores</span>
+                                </a><!--//nav-link-->
+                            </li><!--//nav-item-->
+                            <li class="nav-item has-submenu">
+                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
+                                    <span class="nav-icon">
+                                    <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-houses" viewBox="0 0 16 16">
+                                        <path d="M5.793 1a1 1 0 0 1 1.414 0l.647.646a.5.5 0 1 1-.708.708L6.5 1.707 2 6.207V12.5a.5.5 0 0 0 .5.5.5.5 0 0 1 0 1A1.5 1.5 0 0 1 1 12.5V7.207l-.146.147a.5.5 0 0 1-.708-.708zm3 1a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708zm.707.707L5 7.207V13.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V7.207z"/>
+                                    </svg>
+                                    </span>
+                                    <span class="nav-link-text">Lotes</span>
+                                    <span class="submenu-arrow">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </span><!--//submenu-arrow-->
+                                </a><!--//nav-link-->
+                                <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
+                                    <ul class="submenu-list list-unstyled">
+                                        <li class="submenu-item"><a class="submenu-link" href="/estados_republica">Estados</a></li>
+                                </div>
+                            </li><!--//nav-item-->
+                            <li class="nav-item has-submenu">
+                                <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                <a class="nav-link submenu-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenu-2" aria-expanded="false" aria-controls="submenu-2">
+                                    <span class="nav-icon">
+                                    <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+                                    </svg>
+                                    </span>
+                                    <span class="nav-link-text">Otros</span>
+                                    <span class="submenu-arrow">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </span><!--//submenu-arrow-->
+                                </a><!--//nav-link-->
+                                <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
+                                    <ul class="submenu-list list-unstyled">
+                                        <li class="submenu-item"><a class="submenu-link" href="/reset_password">Recuperar contraseña</a></li>
+                                    </ul>
+                                </div>
+                            </li><!--//nav-item-->
+                        </ul><!--//app-menu-->
+                    </nav><!--//app-nav-->
+                </div>
+            </div>
+        </header><!--//app-header-->
+
+        <div class="app-wrapper">
+
+            <div class="app-content pt-3 p-md-3 p-lg-4">
+                <div class="container-xl">
+                    {% with mensajes = get_flashed_messages(category_filter=["message"]) %}
+                        {% if mensajes %}
+                            {% for mensaje in mensajes %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ mensaje|safe }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    {% with mensajes = get_flashed_messages(category_filter=["warning"]) %}
+                        {% if mensajes %}
+                            {% for mensaje in mensajes %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ mensaje|safe }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    {% with mensajes = get_flashed_messages(category_filter=["error"]) %}
+                        {% if mensajes %}
+                            {% for mensaje in mensajes %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ mensaje|safe }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <h1 class="app-page-title">Vendedores</h1>
+
+                    <div class="row gy-2">
+                        {% if not vendedores or vendedores|length == 0 %}
+                            <div class="stats-type mb-1">
+                                No se encontró vendedor
+                            </div>
+                        {% endif %}
+                        <!--TAMANO DEL CARD DE PROFILE-->
+                        {% if vendedores or vendedores|length != 0 %}
+                        <div class="col-12">
+                            <form name="actualizar_vendedor" id="actualizar_vendedor" action="{{ url_for('vendedores.enviar_vendedor_actualizado') }}" method="POST" class="app-card app-card-account shadow-sm d-flex flex-column align-items-start">
+                                <div class="app-card-header p-3 border-bottom-0">
+                                    <div class="row align-items-center gx-3">
+                                        <div class="col-auto">
+                                            <h1 class="app-page-title mb-0">Editar</h1>
+                                        </div><!--//col-->
+                                    </div><!--//row-->
+                                </div><!--//app-card-header-->
+                                <div class="app-card-body px-4 w-100">
+                                    <div class="item py-1">
+                                        <div class="row justify-content-between align-items-center">
+                                            <div class="item py-3">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        {% for vendedor in vendedores %}
+                                                                <div class="item-label mb-2"><strong>Nombre(s)</strong></div>
+                                                                <input type="text" value="{{ vendedor.nombres_vendedor }}" class="form-control" name="nombres_vendedor" id="nombres_vendedor" placeholder="Introduzca su nombre completo" required>
+                                                            </div><!--//col-->
+
+                                                            <div class="col-md-4">
+                                                                <div class="item-label mb-2"><strong>Primer apellido</strong></div>
+                                                                <input type="text" value="{{ vendedor.primer_apellido_vendedor }}" class="form-control" name="primer_apellido_vendedor" id="primer_apellido_vendedor" placeholder="Introduzca su primer apellido" required>
+                                                            </div><!--//col-->
+                                                            <div class="col-md-4">
+                                                                <div class="item-label mb-2"><strong>Segundo apellido</strong></div>
+                                                                <input type="text" value="{{ vendedor.segundo_apellido_vendedor }}" class="form-control" name="segundo_apellido_vendedor" id="segundo_apellido_vendedor" placeholder="Introduzca su segundo apellido">
+                                                            </div><!--//col-->
+                                                        </div><!--//row-->
+                                                    </div><!--//item-->
+                                                    <div class="col-12">
+                                                        <div class="item-label mb-2"><strong>Ventas realizadas</strong></div>
+                                                        <div class="item-data py-2">{{ vendedor.lotes_vendidos}}</div>
+                                                    </div><!--//col-->
+                                                </div><!--//row-->
+                                            </div><!--//item-->
+
+                                            <div class="item py-3">
+                                                <div class="row justify-content-between align-items-center">
+                                                    <div class="col-12">
+                                                        <div class="item-label mb-2"><strong>Correo electrónico</strong></div>
+                                                        <input type="text" value="{{ vendedor.correo_electronico }}" class="form-control" name="correo_electronico2 id="correo_electronico" placeholder="Introduzca su correo electrónico">
+                                                    </div><!--//col-->
+                                                </div><!--//row-->
+                                            </div><!--//item-->
+
+                                            <div class="item py-3">
+                                                <div class="row justify-content-between align-items-center">
+                                                    <div class="col-12">
+                                                        <div class="item-label mb-2"><strong>Número de telefóno</strong></div>
+                                                        <input type="text" value="{{ vendedor.numero_telefono }}" class="form-control" name="numero_telefono" id="numero_telefono" placeholder="Introduzca su CURP" required>
+                                                    </div>
+                                                </div><!--//row-->
+                                            </div><!--//item-->
+
+                                            <div class="item py-3">
+                                                <div class="row justify-content-between align-items-center">
+                                                    <div class="col-12">
+                                                        <div class="item-label mb-2"><strong>RFC</strong></div>
+                                                            {% if not vendedor.RFC_vendedor %}
+                                                            <input type="text" value="" class="form-control" name="RFC_vendedor" id="RFC_vendedor" placeholder="Introduzca su RFC">
+                                                            {% else %}
+                                                            <input type="text" value="{{ vendedor.RFC_vendedor }}" class="form-control" name="RFC_vendedor" id="RFC_vendedor" placeholder="Introduzca su RFC">
+                                                            {% endif %}
+
+                                                    </div>
+                                                </div><!--//row-->
+                                            </div><!--//item-->
+
+                                            <div class="item py-3">
+                                                <div class="row">
+                                                    <div class="item-label mb-2"><strong>Dirección</strong></div>
+                                                    <div class="col-md-3 mb-4">
+                                                        <div class="item-label mb-2"><strong>Código postal</strong></div>
+                                                        <input type="text" value="{{ vendedor.codigo_postal }}" class="form-control" name="codigo_postal" id="codigo_postal" placeholder="Introduzca su código postal" required>
+                                                    </div>
+                                                    <div class="col-md-3 mb-4">
+                                                        <div class="item-label mb-2"><strong>Estado</strong></div>
+                                                        <input type="text" value="{{ vendedor.estado }}" class="form-control" name="estado" id="estado" placeholder="Introduzca su estado" required="">
+                                                    </div>
+                                                    <div class="col-md-3 mb-4">
+                                                        <div class="item-label mb-2"><strong>Municipio</strong></div>
+                                                        <input type="text" value="{{ vendedor.municipio }}" class="form-control" name="municipio" id="municipio" placeholder="Introduzca su municipio" required="">
+                                                    </div>
+                                                    <div class="col-md-3 mb-4">
+                                                        <div class="item-label mb-2"><strong>Colonia</strong></div>
+                                                        <input type="text" value="{{ vendedor.colonia }}" class="form-control" name="colonia" id="colonia" placeholder="Introduzca su colonia" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6 mb-2">
+                                                        <div class="item-label mb-2"><strong>Calle</strong></div>
+                                                        <input type="text" value="{{ vendedor.calle }}" class="form-control" name="calle" id="calle" placeholder="Introduzca su calle" required>
+                                                    </div>
+                                                    <div class="col-md-6 mb-2">
+                                                        <div class="item-label mb-2"><strong>Número exterior</strong></div>
+                                                        <input type="text" value="{{ vendedor.numero_exterior }}" class="form-control" name="numero_exterior" id="numero_exterior" placeholder="Introduzca su número exterior">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div><!--//app-card-body-->
+                                        <div class="app-card-footer p-4 mt-auto">
+                                            <input type="hidden" name="identificador_vendedor" value="{{ vendedor.id_vendedor}}">
+                                            <button type="submit" class="btn app-btn-primary">Guardar</button>
+                                            <a class="btn app-btn-secondary" href="/vendedor_especifico/{{ vendedor.id_vendedor }}">Cerrar</a>
+                                        </div><!--//app-card-footer-->
+                                    {% endfor %}
+                                </form><!--//app-card-->
+                            </div><!--//col-->
+                        {% endif %}
+                    </div>
+                </div><!--//row-->
+
+            </div><!--//container-fluid-->
+
+            <datalist id="opciones">
+                <option value="Estados"></option>
+                <option value="Agregar estado de la república"></option>
+                <option value="Vendedores"></option>
+                <option value="Agregar nuevo vendedor"></option>
+                <option value="Vendedores con más ventas"></option>
+                <option value="Vendedores con menos ventas"></option>
+                <option value="Vendedores activos"></option>
+                <option value="Vendedores inactivos"></option>
+                <option value="Compras"></option>
+                <option value="Compras terminadas"></option>
+                <option value="Compras en proceso"></option>
+                <option value="Compras canceladas"></option>
+                <option value="Agregar nuevo cliente"></option>
+                <option value="Notificaciones"></option>
+                <option value="Notificaciones no leídas"></option>
+                <option value="Notificaciones leídas"></option>
+                <option value="Notificaciones más antigüas"></option>
+                <option value="Notificaciones más recientes"></option>
+                <option value="Recuperar contraseña"></option>
+                <option value="Configuración"></option>
+            </datalist>
+
+            <footer class="app-footer">
+
+            </footer><!--//app-footer-->
+
+        </div><!--//app-wrapper-->
+
+        <!-- Javascript -->
+        <script src="{{ url_for('static', filename='plugins/popper.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+        <!-- Page Specific JS -->
+        <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        <script type="module">
+            // Importar función correspondiente
+            import { cerrar_sesion } from "{{ url_for('static', filename='js/sesion/administrar_sesion.js') }}"
+            import { validarFormulario } from "{{ url_for('static', filename='js/utilidades.js')}}"
+
+            // Hacemos accesible a la función
+            window.cerrar_sesion = cerrar_sesion;
+
+            // Evitar envío del formulario para validar
+            document.getElementById("actualizar_vendedor").addEventListener('submit', function(evento){
+                evento.preventDefault();
+
+                // Obtener los posibles errores de la validación
+                const errores = validarFormulario('actualizar_vendedor');
+
+                // Verificar
+                if (Object.keys(errores).length > 0) {
+                    alert(Object.values(errores));
+                } else {
+                    alert('Enviando formulario.');
+                    document.getElementById('actualizar_vendedor').submit();
+                }
+            });
+        </script>
+        </script>
+
+    </body>
+</html>
+

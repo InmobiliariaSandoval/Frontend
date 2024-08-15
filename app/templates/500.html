@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>500 error</title>
+
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Página de inicio de error 500">
+    <meta name="author" content="@jannethsm31 y @PatricioVargasR">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico')}}">
+
+    <!-- FontAwesome JS-->
+    <script defer src="{{ url_for('static', filename='plugins/fontawesome/js/all.min.js') }}"></script>
+
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="app app-404-page">
+    <div class="container mb-5">
+	    <div class="row">
+		    <div class="col-12 col-md-11 col-lg-7 col-xl-6 mx-auto">
+			    <div class="app-branding text-center mb-5">
+                    <div class="app-auth-branding mb-4">
+						<a class="app-logo" href="index.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-houses-fill me-2" viewBox="0 0 16 16">
+								<path d="M7.207 1a1 1 0 0 0-1.414 0L.146 6.646a.5.5 0 0 0 .708.708L1 7.207V12.5A1.5 1.5 0 0 0 2.5 14h.55a2.5 2.5 0 0 1-.05-.5V9.415a1.5 1.5 0 0 1-.56-2.475l5.353-5.354z"/>
+								<path d="M8.793 2a1 1 0 0 1 1.414 0L12 3.793V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v3.293l1.854 1.853a.5.5 0 0 1-.708.708L15 8.207V13.5a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 4 13.5V8.207l-.146.147a.5.5 0 1 1-.708-.708z"/>
+							</svg>
+						</a>
+					</div>
+                </div><!--//app-branding-->
+			    <div class="app-card p-5 text-center shadow-sm">
+				    <h1 class="page-title mb-4">500<br><span class="font-weight-light">Error en el servidor</span></h1>
+				    <div class="mb-4">
+					    Lo sentimos, ocurrió un error inesperado, intente nuevamente más tarde.
+				    </div>
+                    {% if error %}
+				    <div class="alert alert-danger" role="alert">
+				        Error: {{ error }}
+				    </div>
+				    {% endif %}
+				    <a class="btn app-btn-primary" href="/resumen">Regresar a inicio</a>
+			    </div>
+		    </div><!--//col-->
+	    </div><!--//row-->
+    </div><!--//container-->
+
+    <footer class="app-footer">
+
+    </footer><!--//app-footer-->
+
+    <!-- Javascript -->
+    <script src="{{ url_for('static', filename='plugins/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+    <!-- Charts JS -->
+    <script src="{{ url_for('static', filename='plugins/chart.js/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
+
+    <!-- Page Specific JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html> 
+
