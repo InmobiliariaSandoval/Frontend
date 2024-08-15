@@ -1,5 +1,5 @@
 // Endpoint base
-export const ENDPOINT_BASE = "URl_BACKEND";
+export const ENDPOINT_BASE = "https://frontendprueba-17c2c6103240.herokuapp.com";
 
 // Endpoint valir token acceso
 export const ENDPOINT_VALIDAR_TOKEN = `${ENDPOINT_BASE}/`
