@@ -114,7 +114,7 @@ async def resumen():
             obtener_todos_vendedores(token_acceso=token, tipo_filtro='mas', tipo_estado=None, numero_pagina=1,tamano_pagina=5)
 
         # Verificar respuesta
-        respuesta_notificaciones = validar_respuesta(respuesta_notificaciones, codigo_estado, 'Notificaciones')
+        respuesta_notificaciones = validar_respuesta(respuesta_notificaciones, codigo_estado, 'Notificaciones', mostrar_mensaje=False)
         respuesta_clientes = validar_respuesta(respuesta_clientes, codigo_estado_ventas, 'Ventas')
         respuesta_vendedor = validar_respuesta(respuesta_vendedor, codigo_estado_vendedor, 'Vendedores')
 
