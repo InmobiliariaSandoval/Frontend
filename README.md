@@ -19,28 +19,36 @@ Para trabajar con el sistema de manera local en tu dispositivo, realizar cambios
     pip install -r requirements.txt
     ```
 
-3. Finalmente, lo que necesitas hacer es crear un archivo llamado `.env` en donde deberás de agregar los siguientes valores:
+3. Una vez tienes los recursos instalados, lo que necesitas hacer es crear un archivo llamado `.env` en donde deberás de agregar los siguientes valores:
 
-    ```
-    SECRET_FLASK = ''
-    URL_BACKEND = ''
-    URL_FRONTEND = ''
+    ```env
+    SECRET_FLASK = '' # Valor para utilizar las sesiones en Flask
+
+    URL_BACKEND = '' # URL del backend, cuando trabajas en local, debería de ser http://127.0.0.1:8000
+
+    URL_FRONTEND = '' # URL del froentd, cuando trabajas en local, debería de ser http://127.0.0.1:8080
     ```
     Todos los valores serán proporcionados por parte de la inmobiliaria una vez que esté desplegado.
 
-    * Si surje algún problema, intenta agregar la siguiente línea en los archivos de python donde se utilice las variables de entorno, es decir, en los archivos `config.py`, `utilidades.py` y `views_generales.py`.
+    * Si surje algún problema, intenta agregar la primer y tercer línea del ejemplo, en el archvio de inicio `run.py`, en caso de que no funcione, agrega donde se utilice las variables de entorno, es decir, en los archivos `config.py`, `utilidades.py` y `views_generales.py` y modifica la manera en que se obtiene las variables de entorno.
 
         Tome como referencia el siguiente código de ejemplo:
 
         ```python
 
-        from dotenv import load_dotenv
+        from dotenv import load_dotenv # Agregar al archivo run.py
         import os
 
+        # Agregar al archvio run.py
         load_dotenv()  # Carga las variables desde el archivo .env
 
+        # Manera de ejemplo
         secret_key = os.getenv("SECRET_KEY")
         database_url = os.getenv("DATABASE_URL")
+
+        # Manera actual
+        secret_key = os.environ['SECRET_KEY']
+        database_url = os.environ['DATABASE_URL']
 
         print(f"Secret Key: {secret_key}")
         print(f"Database URL: {database_url}")
@@ -48,6 +56,31 @@ Para trabajar con el sistema de manera local en tu dispositivo, realizar cambios
         ```
 
         Además, en el archivo `configuracion.js` necesita cambiar la URL proporcionada en esa constante a la correspondiente del backend.
+
+4. Finalmente puedes ejecutar el siguiente comando para poner en función el sistema haciendo la siguiente modificación para tener un comando más sencillo.
+
+   * En el archivo `run.py` agrega hasta el final del archivo las siguientes líneas
+
+        ```python
+        if __name__ == '__main__':
+            app.run(port=8080)
+        ```
+    * En el archivo de `config.py` cambia el valor de la constante *DEBUG* a *True*:
+
+        ```python
+        DEBUG=True
+        ```
+    * Una vez realizadas estas configuraciones, ejecuta el siguiente comando desde la raíz:
+
+    ```bash
+    python run.py
+    ```
+
+En caso de volver a desplegar, lo único que necesitas hacer es comentar las líneas que acabas de añadir, así como cambiar el valor de la constante a su valor original. Evita que se envie el archivo .env con un archivo .gitignore:
+
+```
+.env
+```
 
 ## Hostings
 
