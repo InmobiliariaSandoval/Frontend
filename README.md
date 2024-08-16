@@ -30,36 +30,11 @@ Para trabajar con el sistema de manera local en tu dispositivo, realizar cambios
     ```
     Todos los valores serán proporcionados por parte de la inmobiliaria una vez que esté desplegado.
 
-    * Si surje algún problema, intenta agregar la primer y tercer línea del ejemplo, en el archvio de inicio `run.py`, en caso de que no funcione, agrega donde se utilice las variables de entorno, es decir, en los archivos `config.py`, `utilidades.py` y `views_generales.py` y modifica la manera en que se obtiene las variables de entorno.
+4. En el archivo `configuracion.js` necesita cambiar la URL proporcionada en esa constante a la correspondiente del backend.
 
-        Tome como referencia el siguiente código de ejemplo:
+5. Finalmente puedes ejecutar el siguiente comando para poner en función el sistema haciendo la siguiente modificación para tener un comando más sencillo.
 
-        ```python
-
-        from dotenv import load_dotenv # Agregar al archivo run.py
-        import os
-
-        # Agregar al archvio run.py
-        load_dotenv()  # Carga las variables desde el archivo .env
-
-        # Manera de ejemplo
-        secret_key = os.getenv("SECRET_KEY")
-        database_url = os.getenv("DATABASE_URL")
-
-        # Manera actual
-        secret_key = os.environ['SECRET_KEY']
-        database_url = os.environ['DATABASE_URL']
-
-        print(f"Secret Key: {secret_key}")
-        print(f"Database URL: {database_url}")
-
-        ```
-
-        Además, en el archivo `configuracion.js` necesita cambiar la URL proporcionada en esa constante a la correspondiente del backend.
-
-4. Finalmente puedes ejecutar el siguiente comando para poner en función el sistema haciendo la siguiente modificación para tener un comando más sencillo.
-
-   * En el archivo `run.py` agrega hasta el final del archivo las siguientes líneas
+   * En el archivo `run.py` descomenta hasta el final del archivo las siguientes líneas
 
         ```python
         if __name__ == '__main__':
@@ -72,11 +47,11 @@ Para trabajar con el sistema de manera local en tu dispositivo, realizar cambios
         ```
     * Una vez realizadas estas configuraciones, ejecuta el siguiente comando desde la raíz:
 
-    ```bash
-    python run.py
-    ```
+        ```bash
+        python run.py
+        ```
 
-En caso de volver a desplegar, lo único que necesitas hacer es comentar las líneas que acabas de añadir, así como cambiar el valor de la constante a su valor original. Evita que se envie el archivo .env con un archivo .gitignore:
+En caso de volver a desplegar, lo único que necesitas hacer es comentar las líneas que acabas de añadir, así como cambiar el valor de la constante `DEBUG` a su valor original. Verifica que no se envie el archivo .env en el archivo .gitignore:
 
 ```
 .env
