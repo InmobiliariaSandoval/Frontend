@@ -4,7 +4,7 @@
 import os
 
 # Endpoint base
-ENDPOINT_BASE = os.environ['URL_BACKEND']
+ENDPOINT_BASE = os.getenv('URL_BACKEND')
 
 # Endpoint para cerrar sesión
 ENDPOINT_CERRAR_SESION = f'{ENDPOINT_BASE}/cerrar_sesion'

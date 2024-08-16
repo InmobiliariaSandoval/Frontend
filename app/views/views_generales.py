@@ -158,7 +158,7 @@ async def enviar_datos():
 
         # Verificar estado de la respuesta
         if codigo_estado == 200 and respuesta_json['success']:
-            flash(Markup('<strong>Éxito:</strong> Se envió el correo con la contraseña'), category="message")
+            flash(Markup('<strong>Éxito:</strong> Se envió el correo con la contraseña'), category="success")
             return redirect('/')
         else:
             error = respuesta_json['detail']
@@ -174,7 +174,7 @@ async def enviar_datos():
 def manejar_redireccion(ruta: str, parametros: str = None):
 
     # Endpoint base del sistema
-    ENDPOINT_BASE = os.environ['URL_FRONTEND']
+    ENDPOINT_BASE = os.getenv('URL_FRONTEND')
 
     # Paginación básica
     paginacion = "pagina=1&tamano=10"

@@ -1,5 +1,9 @@
 // Endpoint base
+// Comentar en caso de ser utilizado en local
 export const ENDPOINT_BASE = "https://backendemostracion-32c611e7a8c0.herokuapp.com";
+
+// Descomentar en caso de que se utilice en local
+//export const ENDPOINT_BASE = "http://127.0.0.1:8000";
 
 // Endpoint valir token acceso
 export const ENDPOINT_VALIDAR_TOKEN = `${ENDPOINT_BASE}/`
