@@ -1529,7 +1529,7 @@ async def enviar_seccion_actualizada():
         # Verificar código de estado
         if codigo_estado == 200:
             session.pop('previa_lotes_ingresar', None)
-            flash(Markup('<strong>Éxito:</strong> Localidad actualizada con éxito'), category="message")
+            flash(Markup('<strong>Éxito:</strong> Sección actualizada con éxito'), category="message")
             return redirect(url_for('lotes.lotes_complejo', identificador_complejo=complejo))
         else:
             # Validar respuesta

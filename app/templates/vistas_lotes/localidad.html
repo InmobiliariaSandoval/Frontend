@@ -225,7 +225,7 @@
 			{% with mensajes = get_flashed_messages(category_filter=["message"]) %}
 				{% if mensajes %}
 					{% for mensaje in mensajes %}
-					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<div class="alert alert-success alert-dismissible fade show" role="alert">
 						{{ mensaje|safe }}
 						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>

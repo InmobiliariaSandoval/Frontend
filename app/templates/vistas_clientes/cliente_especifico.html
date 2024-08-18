@@ -306,6 +306,14 @@
                                                     </div><!--//col-->
                                                 </div><!--//row-->
                                             </div><!--//item-->
+                                            <div class="item py-2">
+                                                <div class="row justify-content-between align-items-center">
+                                                    <div class="col-md-4">
+                                                        <div class="item-label"><strong>CURP del cliente </strong></div>
+                                                        <div class="item-data py-2">{{ cliente.CURP_cliente }}</div>
+                                                    </div><!--//col-->
+                                                </div><!--//row-->
+                                            </div><!--//item-->
                                             <hr>
 
                                             <div class="item py-2">
@@ -336,7 +344,11 @@
                                                     </div>
                                                     <div class="col-md-6 mb-2">
                                                         <div class="item-label mb-2"><strong>Número exterior</strong></div>
-                                                        <div class="item-label py-2"> {{  cliente.numero_exterior }} </div>
+                                                        {% if cliente.numero_exterior %}
+                                                            <div class="item-label py-2"> {{  cliente.numero_exterior }} </div>
+                                                        {% else %}
+                                                            <div class="item-label py-2"> S/N </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>

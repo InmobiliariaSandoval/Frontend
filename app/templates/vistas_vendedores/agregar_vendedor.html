@@ -249,7 +249,7 @@
                                 <div class="app-card-header p-3 border-bottom-0">
                                     <div class="row align-items-center gx-3">
                                         <div class="col-auto">
-                                            <h1 class="app-page-title mb-0">Agregar</h1>
+                                            <h1 class="app-page-title mb-0">Agregar vendedor</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -274,11 +274,11 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="item-label mb-2"><strong>Correo electrónico</strong></div>
-                                                <input type="text" class="form-control" name="correo_electronico" id="correo_electronico" placeholder="Introduzca su correo electrónico" value="{{ session.get('form_data', {}).get('correo_electronico', '') }}">
+                                                <input type="email" class="form-control" name="correo_electronico" id="correo_electronico" placeholder="Introduzca su correo electrónico" value="{{ session.get('form_data', {}).get('correo_electronico', '') }}">
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="item-label mb-2"><strong>Número telefónico</strong></div>
-                                                <input type="text" class="form-control" name="numero_telefono" id="numero_telefono" placeholder="Introduzca su número telefónico" value="{{ session.get('form_data', {}).get('numero_telefono', '') }}" required pattern="\d{10}">
+                                                <input type="number" class="form-control" name="numero_telefono" id="numero_telefono" placeholder="Introduzca su número telefónico" value="{{ session.get('form_data', {}).get('numero_telefono', '') }}" required pattern="\d{10}">
                                             </div>
                                         </div>
                                     </div>
@@ -309,7 +309,7 @@
                                             </div>
                                             <div class="col-md-6 mb-2">
                                                 <div class="item-label mb-2"><strong>Número exterior</strong></div>
-                                                <input type="text" class="form-control" name="numero_exterior" id="numero_exterior" placeholder="Introduzca su número exterior" value="{{ session.get('form_data', {}).get('numero_exterior', '') }}">
+                                                <input type="number" class="form-control" name="numero_exterior" id="numero_exterior" placeholder="Introduzca su número exterior" value="{{ session.get('form_data', {}).get('numero_exterior', '') }}">
                                             </div>
                                         </div>
                                     </div>

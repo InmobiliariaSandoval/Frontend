@@ -422,21 +422,23 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for dato in vendedores %}
-												<tr>
-													<td>
-														<a href="/vendedor_especifico/{{ dato.id_vendedor }}">
-														{{ dato.nombres_vendedor }} {{  dato.primer_apellido_vendedor }} {{ dato.segundo_apellido_vendedor }}
-														</a>
-													</td>
-													<td class="stat-cell">
-														<a>
-															{{ dato.numero_telefono }}
-														</a>
-													</td>
-													<td class="stat-cell">{{ dato.lotes_vendidos }}</td>
-												</tr>
-											{% endfor %}
+											{% if vendedores or vendedores != 0 %}
+												{% for dato in vendedores %}
+													<tr>
+														<td>
+															<a href="/vendedor_especifico/{{ dato.id_vendedor }}">
+															{{ dato.nombres_vendedor }} {{  dato.primer_apellido_vendedor }} {{ dato.segundo_apellido_vendedor }}
+															</a>
+														</td>
+														<td class="stat-cell">
+															<a>
+																{{ dato.numero_telefono }}
+															</a>
+														</td>
+														<td class="stat-cell">{{ dato.lotes_vendidos }}</td>
+													</tr>
+												{% endfor %}
+											{% endif %}
 										</tbody>
 									</table>
 						        </div><!--//table-responsive-->

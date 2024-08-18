@@ -148,7 +148,7 @@ async def enviar_vendedor():
         # Verificar código de estado
         if codigo_estado == 201:
             session.pop('form_data', None)
-            flash(Markup('<strong>Éxito:</strong> Usuario añadido con éxito'), category="message")
+            flash(Markup('<strong>Éxito:</strong> Vendedor añadido con éxito'), category="message")
             return redirect(url_for('vendedores.vendedor_especifico', identificador_vendedor=respuesta_vendedor[0]['id_vendedor']))
         else:
             # Validar respuesta

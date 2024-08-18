@@ -38,7 +38,7 @@ class VendedoresController():
                 respuesta.append(vendedores)
             else:
                 respuesta = vendedores
-    
+
             return respuesta, total, codigo_estado
         except Exception as error:
             print(f"Ocurrió un error al mapear todos los vendedosres: {error}")

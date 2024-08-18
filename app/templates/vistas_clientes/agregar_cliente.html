@@ -294,7 +294,7 @@
                                             </div><!--//col-->
                                             <div class="col-md-6">
                                                 <div class="item-label mb-2"><strong>Teléfono</strong></div>
-                                                <input type="text" class="form-control mb-3" name="telefono_contacto" id="telefono_contacto" placeholder="Introduzca el número de teléfono del cliente" required>
+                                                <input type="number" class="form-control mb-3" name="telefono_contacto" id="telefono_contacto" placeholder="Introduzca el número de teléfono del cliente" required>
                                             </div><!--//col-->
                                             <div class="col-md-6">
                                                 <div class="item-label mb-2"><strong>CURP</strong></div>
@@ -367,7 +367,7 @@
                                                     </div>
                                                     <div class="col-md-6 mb-2">
                                                         <div class="item-label mb-2"><strong>Número exterior</strong></div>
-                                                        <input type="text" class="form-control" name="numero_exterior" id="numero_exterior" placeholder="Introduzca su número exterior" value="{{ session.get('form_data', {}).get('numero_exterior', '') }}">
+                                                        <input type="number" class="form-control" name="numero_exterior" id="numero_exterior" placeholder="Introduzca su número exterior" value="{{ session.get('form_data', {}).get('numero_exterior', '') }}">
                                                     </div>
                                                 </div>
                                             </div>
